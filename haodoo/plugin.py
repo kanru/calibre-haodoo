@@ -19,10 +19,10 @@ __copyright__ = '2010, Kan-Ru Chen <kanru@kanru.info>'
 import os
 
 from calibre import prepare_string_for_xml
-from calibre.customize import Plugin
+from calibre.customize.conversion import InputFormatPlugin
 from calibre.ebooks.metadata import MetaInformation
 from calibre.ebooks.metadata.pdb import MREADER
-from calibre.ebooks.pdb import FORMAT_READERS, FORMAT_WRITERS, IDENTITY_TO_NAME
+from calibre.ebooks.pdb import PDBError, FORMAT_READERS, FORMAT_WRITERS, IDENTITY_TO_NAME
 from calibre.ebooks.pdb.formatreader import FormatReader
 from calibre.ebooks.pdb.header import PdbHeaderReader
 from calibre.ebooks.txt.processor import opf_writer, HTML_TEMPLATE
@@ -147,13 +147,14 @@ def get_Haodoo(stream, extract_cover=True):
     
     return mi
 
-class HaoDooPdb(Plugin):
+class HaoDooPdb(InputFormatPlugin):
 
     name                = 'HaoDoo PDB Plugin'
     description         = 'Add HaoDoo PDB/uPDB support to core PDB plugin'
     supported_platforms = ['windows', 'osx', 'linux']
     author              = 'Kan-Ru Chen <kanru@kanru.info>'
-    version             = (0, 1, 0)
+    file_types          = set(['updb'])
+    version             = (0, 2, 0)
 
     def initialize(self):
         FORMAT_READERS[BPDB_IDENT] = Reader
@@ -162,3 +163,12 @@ class HaoDooPdb(Plugin):
         IDENTITY_TO_NAME[UPDB_IDENT] = 'HaoDoo.net'
         MREADER[BPDB_IDENT] = get_Haodoo
         MREADER[UPDB_IDENT] = get_Haodoo
+
+    def convert(self, stream, options, file_ext, log, accelerators):
+        header = PdbHeaderReader(stream)
+        if header.ident != UPDB_IDENT:
+            raise PDBError('Not a Haodoo UPDB format')
+        reader = Reader(header, stream, log, options)
+        opf = reader.extract_content(os.getcwd())
+
+        return opf
