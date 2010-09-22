@@ -116,7 +116,7 @@ class Reader(FormatReader):
                 line = line.strip()
                 line = prepare_string_for_xml(line)
                 line = fix_punct(line)
-                if not title_added:
+                if not title_added and title in line:
                     line = line.replace(title,
                                         u'<h1 class="chapter">' + title + u'</h1>' + u'\n')
                     title_added = True
