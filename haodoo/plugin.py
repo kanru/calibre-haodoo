@@ -66,9 +66,9 @@ class LegacyHeaderRecord(object):
 
     def __init__(self, raw):
         fields = raw.lstrip().replace('\x1b\x1b\x1b', '\x1b').split('\x1b')
-        self.title = fields[0].decode('Big5', 'replace')
+        self.title = fields[0].decode('cp950', 'replace')
         self.num_records = int(fields[1])
-        self.chapter_titles = map(lambda x: x.decode('Big5', 'replace'), fields[2:])
+        self.chapter_titles = map(lambda x: x.decode('cp950', 'replace'), fields[2:])
 
 class UnicodeHeaderRecord(object):
 
@@ -92,7 +92,7 @@ class Reader(FormatReader):
 
         if header.ident == BPDB_IDENT:
             self.header_record = LegacyHeaderRecord(self.section_data(0))
-            self.encoding = 'Big5'
+            self.encoding = 'cp950'
         else:
             self.header_record = UnicodeHeaderRecord(self.section_data(0))
             self.encoding = 'utf_16_le'
