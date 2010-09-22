@@ -110,12 +110,16 @@ class Reader(FormatReader):
         for i in range(1, self.header_record.num_records + 1):
             self.log.debug('\tDecompressing text section %i' % i)
             title = self.header_record.chapter_titles[i-1]
-            txt += u'<h1>' + title + u'</h1>' + u'\n'
             lines = []
+            title_added = False
             for line in self.decompress_text(i).splitlines():
                 line = line.strip()
                 line = prepare_string_for_xml(line)
                 line = fix_punct(line)
+                if not title_added:
+                    line = line.replace(title,
+                                        u'<h1 class="chapter">' + title + u'</h1>' + u'\n')
+                    title_added = True
                 lines.append(u'<p>%s</p>' % line)
             txt += '\n'.join(lines)
 
