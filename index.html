@@ -8,62 +8,75 @@
 	<title>kanru/calibre-haodoo @ GitHub</title>
 	
 	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #a8b79b;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #574864; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #574864; }
-    h3 { text-align: center; color: #574864; }
-    a { color: #574864; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
+	body {
+  	    margin-top: 1.0em;
+  	    background-color: #d4d6d7;
+	    font-family: "Helvetica,Arial,FreeSans";
+  	    color: #000000;
+        }
+        #container {
+            margin: 0 auto;
+            width: 720px;
+        }
+	h1 { font-size: 3.8em; color: #574864; margin-bottom: 3px; }
+	h1 .small { font-size: 0.4em; }
+	h1 a { text-decoration: none }
+	h2 { font-size: 1.5em; color: #574864; }
+        h3 { text-align: center; color: #574864; }
+        a { color: #574864; }
+        p { line-height: 2; }
+        .description { font-size: 1.2em;
+                       margin-bottom: 30px;
+                       margin-top: 30px;
+                       font-style: italic;}
+        .download { float: right; }
+	pre { background: #000; color: #fff; padding: 15px; }
+        pre#license { background: #666; color: #fff; padding: 15px; }
+        hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+        .footer { text-align:center; padding-top:30px; font-style: italic; }
 	</style>
 	
 </head>
 
 <body>
-  <a href="http://github.com/kanru/calibre-haodoo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+  <a href="http://github.com/kanru/calibre-haodoo">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+         alt="Fork me on GitHub" />
+  </a>
 
   <div id="container">
-
     <div class="download">
       <a href="http://github.com/kanru/calibre-haodoo/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png" />
+      </a>
       <a href="http://github.com/kanru/calibre-haodoo/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png" />
+      </a>
     </div>
 
     <h1><a href="http://github.com/kanru/calibre-haodoo">HaoDoo for Calibre</a>
-      <span class="small">by <a href="http://github.com/kanru">kanru</a></span></h1>
+    <span class="small">by <a href="http://github.com/kanru">kanru</a></span></h1>
 
     <div class="description">
       替 Calibre 增加匯入好讀 PDB 格式的功能
     </div>
 
-    <p>## 好讀 PDB 之 Calibre 擴充
-
-替 Calibre 增加好讀的 PDB/uPDB 檔案支援。
-
-Calibre 是知名的電子書管理軟體，支援各種作業系統，包括 Windows, MacOS
-X, Linux 等。網頁：http://calibre-ebook.com/
-
-## 安裝
-
-把整個目錄 zip 壓縮起來，或是從
-http://github.com/kanru/calibre-haodoo/zipball/master 下載，
-然後從 Calibre 的偏好設定中安裝。
+    <h2 id="intro">好讀 PDB 的 Calibre 擴充</h2>
+    <p>
+      <a href="http://calibre-ebook.com/">Calibre</a> 是知名的電子書管理軟體，支援各種作業系統，包括 Windows, MacOS
+      X, Linux 等。
+    </p>
+    <p>Calibre 可以匯入多種檔案並支援各種輸出格式，包括 EPUB, FB2, OEB, LIT, LRF, MOBI, PDB, PML, RB, PDF, TCR, TXT 等。
+    </p>
+    <p>HaoDoo for Calibre 則是一個擴充元件，讓 Calibre 可以認得好讀網的 PDB/uPDB 內容，原先是為了可以方便的轉換 PDB/uPDB 成 MOBI 格式給 Kindle 使用，但透過 Calibre 更可以支援轉檔到各種其他格式。
+    </p>
+<!--
+    <h2>安裝</h2>
+    <p>
+      把整個目錄 zip 壓縮起來，或是從
+      http://github.com/kanru/calibre-haodoo/zipball/master 下載，
+      然後從 Calibre 的偏好設定中安裝。
 
 ## 使用說明
 
@@ -71,25 +84,76 @@ http://github.com/kanru/calibre-haodoo/zipball/master 下載，
 Calibre 把電子書匯入，之後就可以隨意轉為各種 Calibre 支援的格式。
 
 注意：目前版本需先將 .updb 檔名改為 .pdb 檔才可匯入。
-</p><h2>Dependencies</h2>
-<p>calibre</p>
-<h2>Install</h2>
-<p>1. 先安裝 Calibre：
+-->
+<h2 id="install">如何安裝</h2>
 
-從 http://calibre-ebook.com/download 下載
+<p>
+  <ol>
+    <li>先安裝 Calibre：</li>
+    <p>
+    從 <a href="http://calibre-ebook.com/download">Calibre 網站</a> 下載安裝。
+    </p>
+    <li>安裝 plugin：</li>
+    <p>
+    按<a href="http://github.com/kanru/calibre-haodoo/zipball/master">
+    這裡下載</a> plugin 後，打開 Calibre ，選擇偏好設定
+    (Preferences)，在進階選項(Advanced)
+    中選擇外掛程式(Plugins)，加入剛剛下載的 plugin 檔案。
+    </p>
+    <p>
+      <img width="700" src="2010-09-26-001628_956x472_scrot.png" />
+    </p>
+    <p>
+      <img width="700" src="2010-09-26-001735_952x467_scrot.png" />
+    </p>
+    <p>
+      <img width="700" src="2010-09-26-001833_952x467_scrot.png" />
+    </p>
+  </ol>
+</p>
 
-2. 安裝 plugin：
+<h2 id="tutorial">如何使用</h2>
+<p>
+  <ol>
+    <li>新增書籍</li>
+    <p>
+      <img width="700" src="2010-09-26-001924_956x472_scrot.png" />
+    </p>
+    <li>轉換格式</li>
+    <p>
+      <img width="700" src="2010-09-26-001932_956x472_scrot.png" />
+    </p>
+    <li>選擇 MOBI</li>
+    <p>
+      <img width="700" src="2010-09-26-002014_946x467_scrot.png" />
+    </p>
+  </ol>
+</p>
+<h2>程式碼授權</h2>
+<p>
+本程式以 GPLv3 授權
+</p>
+<p>
+  <pre id="license">Copyright (C) 2010  Kan-Ru Chen
 
-從 http://github.com/kanru/calibre-haodoo/zipball/master 下載</p>
-<h2>License</h2>
-<p>GPLv3</p>
-<h2>Authors</h2>
-<p>Kan-Ru Chen (ckanru@gmail.com)<br/>      </p>
-<h2>Contact</h2>
-<p>Kanru Chen (ckanru@gmail.com)<br/>      </p>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</pre>
+</p>
+<h2>作者</h2>
+<p>Kan-Ru Chen (kanru _at_ 0xlab.org)</p>
 
 
-    <h2>Download</h2>
+    <h2>Get The Source Code</h2>
     <p>
       You can download this project in either
       <a href="http://github.com/kanru/calibre-haodoo/zipball/master">zip</a> or
