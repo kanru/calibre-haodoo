@@ -130,6 +130,8 @@ class Reader(FormatReader):
 
         mi = MetaInformation(None, [_('Unknown')])
         mi.title = self.header_record.title
+        # TODO: could I set this from gui?
+        mi.language = 'zh-tw'
         manifest = [('index.html', None)]
         spine = ['index.html']
         opf_writer(output_dir, 'metadata.opf', manifest, spine, mi)
@@ -148,6 +150,8 @@ def get_Haodoo(stream, extract_cover=True):
         hr = UnicodeHeaderRecord(header.section_data(0))
 
     mi.title = hr.title
+    # TODO: could I set this from gui?
+    mi.language = 'zh-tw'
     
     return mi
 
