@@ -55,6 +55,7 @@ punct_table = {
     u"｜": u"—",
     u"︙": u"…",
     u"ⸯ": u"～",
+    u"│": u"…",
     }
 
 def fix_punct(line):
