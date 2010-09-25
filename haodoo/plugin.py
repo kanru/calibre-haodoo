@@ -114,13 +114,14 @@ class Reader(FormatReader):
             lines = []
             title_added = False
             for line in self.decompress_text(i).splitlines():
-                line = line.strip()
-                line = prepare_string_for_xml(line)
-                line = fix_punct(line)
                 if not title_added and title in line:
                     line = line.replace(title,
                                         u'<h1 class="chapter">' + title + u'</h1>' + u'\n')
                     title_added = True
+                else:
+                    line = prepare_string_for_xml(line)
+                line = line.strip()
+                line = fix_punct(line)
                 lines.append(u'<p>%s</p>' % line)
             txt += '\n'.join(lines)
 
