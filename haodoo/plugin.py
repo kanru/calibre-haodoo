@@ -70,7 +70,7 @@ class LegacyHeaderRecord(object):
         self.title = fields[0].decode('cp950', 'replace')
         self.num_records = int(fields[1])
         self.chapter_titles = map(
-            lambda x: x.decode('cp950', 'replace').replace('\x00', ''),
+            lambda x: x.decode('cp950', 'replace').rstrip('\x00'),
             fields[2:])
 
 class UnicodeHeaderRecord(object):
@@ -80,7 +80,7 @@ class UnicodeHeaderRecord(object):
         self.title = fields[0].decode('utf_16_le', 'ignore')
         self.num_records = int(fields[1])
         self.chapter_titles = map(
-            lambda x: x.decode('utf_16_le', 'replace').replace('\x00', ''),
+            lambda x: x.decode('utf_16_le', 'replace').rstrip('\x00'),
             fields[2].split('\r\x00\n\x00'))
 
 class Reader(FormatReader):
@@ -104,7 +104,7 @@ class Reader(FormatReader):
         return self.sections[number]
 
     def decompress_text(self, number):
-        return self.section_data(number).decode(self.encoding, 'replace')
+        return self.section_data(number).decode(self.encoding, 'replace').rstrip('\x00')
 
     def extract_content(self, output_dir):
         txt = ''
