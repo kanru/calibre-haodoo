@@ -164,7 +164,7 @@ class HaoDooPdb(InputFormatPlugin):
     name                = 'HaoDoo PDB Plugin'
     description         = 'Add HaoDoo PDB/uPDB support to core PDB plugin'
     supported_platforms = ['windows', 'osx', 'linux']
-    author              = 'Kan-Ru Chen <kanru@0xlab.org>'
+    author              = 'Kan-Ru Chen <kanru@kanru.info>'
     file_types          = set(['updb'])
     version             = (0, 3, 4)
 
