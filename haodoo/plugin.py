@@ -88,8 +88,6 @@ class Reader(FormatReader):
     def __init__(self, header, stream, log, options):
         self.stream = stream
         self.log = log
-        self.single_line_paras = options.single_line_paras
-        self.print_formatted_paras = options.print_formatted_paras
 
         self.sections = []
         for i in range(header.num_sections):
