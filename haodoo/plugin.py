@@ -69,7 +69,9 @@ class LegacyHeaderRecord(object):
         fields = raw.lstrip().replace('\x1b\x1b\x1b', '\x1b').split('\x1b')
         self.title = fields[0].decode('cp950', 'replace')
         self.num_records = int(fields[1])
-        self.chapter_titles = map(lambda x: x.decode('cp950', 'replace'), fields[2:])
+        self.chapter_titles = map(
+            lambda x: x.decode('cp950', 'replace').replace('\x00', ''),
+            fields[2:])
 
 class UnicodeHeaderRecord(object):
 
@@ -77,7 +79,9 @@ class UnicodeHeaderRecord(object):
         fields = raw.lstrip().replace('\x1b\x00\x1b\x00\x1b\x00', '\x1b\x00').split('\x1b\x00')
         self.title = fields[0].decode('utf_16_le', 'ignore')
         self.num_records = int(fields[1])
-        self.chapter_titles = map(lambda x: x.decode('utf_16_le', 'replace'), fields[2].split('\r\x00\n\x00'))
+        self.chapter_titles = map(
+            lambda x: x.decode('utf_16_le', 'replace').replace('\x00', ''),
+            fields[2].split('\r\x00\n\x00'))
 
 class Reader(FormatReader):
 
