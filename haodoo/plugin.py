@@ -166,7 +166,7 @@ class HaoDooPdb(InputFormatPlugin):
     supported_platforms = ['windows', 'osx', 'linux']
     author              = 'Kan-Ru Chen <kanru@0xlab.org>'
     file_types          = set(['updb'])
-    version             = (0, 3, 3)
+    version             = (0, 3, 4)
 
     def initialize(self):
         FORMAT_READERS[BPDB_IDENT] = Reader
