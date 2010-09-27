@@ -37,6 +37,8 @@
         pre#license { background: #666; color: #fff; padding: 15px; }
         hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
         .footer { text-align:center; padding-top:30px; font-style: italic; }
+        .note:before { content: "注意"; color: red; font-size: small;
+        vertical-align: super; }
 	</style>
 </head>
 
@@ -72,8 +74,8 @@
     </p>
     <p>目前經過測試，Kindle 3 的原生中文支援可以正常使用，Kindle 3 DXG
     裝了中文字型後也可以顯示無誤。</p>
-    <p>Erik Lee 網友回報說 Kindle 3 必須手動複製轉好的 .mobi 檔案到
-    Kindle 上才不會掉字。(<a href="http://www.haodoo.net/?M=hd&P=Kindle3">詳細</a>)</p>
+    <p class="note">目前 Calibre 的 GUI 語言必須設定為中文才能轉出 Kindle 3 不會掉
+    字的 MOBI</p>
 <h2 id="changelog">更新紀錄</h2>
 <p>
   <ul>
