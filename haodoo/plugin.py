@@ -150,7 +150,7 @@ class HaoDooPdb(calibre.ebooks.pdb.input.PDBInput,
     supported_platforms = ['windows', 'osx', 'linux']
     author              = 'Kan-Ru Chen <kanru@kanru.info>'
     file_types          = set(['pdb', 'updb'])
-    version             = (0, 3, 4)
+    version             = (0, 3, 5)
     priority            = 10
 
     def initialize(self):
