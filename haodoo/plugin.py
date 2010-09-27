@@ -18,11 +18,11 @@ __copyright__ = '2010, Kan-Ru Chen <kanru@kanru.info>'
 
 import os
 
+import calibre.ebooks.pdb.input
+import calibre.customize.builtins
+
 from calibre import prepare_string_for_xml
-from calibre.customize.conversion import InputFormatPlugin
 from calibre.ebooks.metadata import MetaInformation
-from calibre.ebooks.metadata.pdb import MREADER
-from calibre.ebooks.pdb import PDBError, FORMAT_READERS, FORMAT_WRITERS, IDENTITY_TO_NAME
 from calibre.ebooks.pdb.formatreader import FormatReader
 from calibre.ebooks.pdb.header import PdbHeaderReader
 from calibre.ebooks.txt.processor import opf_writer, HTML_TEMPLATE
@@ -142,44 +142,45 @@ class Reader(FormatReader):
 
         return os.path.join(output_dir, 'metadata.opf')
 
-def get_Haodoo(stream, extract_cover=True):
-    mi = MetaInformation(None, [_('Unknown')])
-    stream.seek(0)
-
-    header = PdbHeaderReader(stream)
-
-    if header.ident == BPDB_IDENT:
-        hr = LegacyHeaderRecord(header.section_data(0))
-    else:
-        hr = UnicodeHeaderRecord(header.section_data(0))
-
-    mi.title = hr.title
-    # TODO: could I set this from gui?
-    mi.language = 'zh-tw'
-    
-    return mi
-
-class HaoDooPdb(InputFormatPlugin):
+class HaoDooPdb(calibre.ebooks.pdb.input.PDBInput,
+                calibre.customize.builtins.PDBMetadataReader):
 
     name                = 'HaoDoo PDB Plugin'
     description         = 'Add HaoDoo PDB/uPDB support to core PDB plugin'
     supported_platforms = ['windows', 'osx', 'linux']
     author              = 'Kan-Ru Chen <kanru@kanru.info>'
-    file_types          = set(['updb'])
+    file_types          = set(['pdb', 'updb'])
     version             = (0, 3, 4)
+    priority            = 10
 
     def initialize(self):
-        FORMAT_READERS[BPDB_IDENT] = Reader
-        FORMAT_READERS[UPDB_IDENT] = Reader
-        IDENTITY_TO_NAME[BPDB_IDENT] = 'HaoDoo.net'
-        IDENTITY_TO_NAME[UPDB_IDENT] = 'HaoDoo.net'
-        MREADER[BPDB_IDENT] = get_Haodoo
-        MREADER[UPDB_IDENT] = get_Haodoo
+        pass
+
+    def get_metadata(self, stream, ftype):
+        mi = MetaInformation(None, [_('Unknown')])
+        stream.seek(0)
+
+        header = PdbHeaderReader(stream)
+
+        if header.ident == BPDB_IDENT:
+            hr = LegacyHeaderRecord(header.section_data(0))
+        elif header.ident == UPDB_IDENT:
+            hr = UnicodeHeaderRecord(header.section_data(0))
+        else:
+            stream.seek(0)
+            return super(HaoDooPdb, self).get_metadata(stream, ftype)
+
+        mi.title = hr.title
+        # TODO: could I set this from gui?
+        mi.language = 'zh-tw'
+
+        return mi
 
     def convert(self, stream, options, file_ext, log, accelerators):
         header = PdbHeaderReader(stream)
-        if header.ident != UPDB_IDENT:
-            raise PDBError('Not a Haodoo UPDB format')
+        if header.ident not in (UPDB_IDENT, BPDB_IDENT):
+            return super(HaoDooPdb, self).convert(
+                stream, options, file_ext, log, accelerators)
         reader = Reader(header, stream, log, options)
         opf = reader.extract_content(os.getcwd())
 
