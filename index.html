@@ -28,6 +28,7 @@
         h3 { text-align: center; color: #574864; }
         a { color: #574864; }
         p { line-height: 2; }
+        li { line-height: 2; }
         .description { font-size: 1.2em;
                        margin-bottom: 30px;
                        margin-top: 30px;
@@ -74,8 +75,23 @@
     </p>
     <p>目前經過測試，Kindle 3 的原生中文支援可以正常使用，Kindle 3 DXG
     裝了中文字型後也可以顯示無誤。</p>
-    <p class="note">目前 Calibre 的 GUI 語言必須設定為中文才能轉出 Kindle 3 不會掉
-    字的 MOBI</p>
+    <h2>避免 Kindle 3 方塊問題</h2>
+    <p>
+      <ol>
+        <li>
+          目前 Calibre 的 GUI 語言必須設定為中文才能轉出 Kindle 3 不會掉字的 MOBI。
+        </li>
+        <li>
+          不能無線傳送檔案到 Kindle 3，因為 Amazon 會把檔案轉壞。
+        </li>
+        <li>
+          若是無解可以用以下方式打開全面中文支援：在主畫面打入
+          <pre>;debugOn
+~changeLocale zh-TW.utf8
+;debugOff</pre>
+        </li>
+      </ol>
+    </p>
 <h2 id="changelog">更新紀錄</h2>
 <p>
   <ul>
