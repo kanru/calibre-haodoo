@@ -16,7 +16,7 @@
 __license__   = 'GPL v3'
 __copyright__ = '2010, Kan-Ru Chen <kanru@kanru.info>'
 
-import os
+import os, struct
 
 import calibre.ebooks.pdb.input
 import calibre.customize.builtins
@@ -101,6 +101,23 @@ class Reader(FormatReader):
             self.header_record = UnicodeHeaderRecord(self.section_data(0))
             self.encoding = 'utf_16_le'
 
+    def author(self):
+        self.stream.seek(35)
+        version = struct.unpack('>b', self.stream.read(1))[0]
+        if version == 2:
+            self.stream.seek(0)
+            author = self.stream.read(35).rstrip('\x00').decode(self.encoding, 'replace')
+            return author
+        else:
+            return u'Unknown'
+
+    def get_metadata(self):
+        mi = MetaInformation(self.header_record.title,
+                             [self.author()])
+        mi.language = 'zh-tw'
+
+        return mi
+
     def section_data(self, number):
         return self.sections[number]
 
@@ -133,10 +150,7 @@ class Reader(FormatReader):
         with open(os.path.join(output_dir, 'index.html'), 'wb') as index:
             index.write(html.encode('utf-8'))
 
-        mi = MetaInformation(None, [_('Unknown')])
-        mi.title = self.header_record.title
-        # TODO: could I set this from gui?
-        mi.language = 'zh-tw'
+        mi = self.get_metadata()
         manifest = [('index.html', None)]
         spine = ['index.html']
         opf_writer(output_dir, 'metadata.opf', manifest, spine, mi)
@@ -158,24 +172,13 @@ class HaoDooPdb(calibre.ebooks.pdb.input.PDBInput,
         pass
 
     def get_metadata(self, stream, ftype):
-        mi = MetaInformation(None, [_('Unknown')])
-        stream.seek(0)
-
         header = PdbHeaderReader(stream)
-
-        if header.ident == BPDB_IDENT:
-            hr = LegacyHeaderRecord(header.section_data(0))
-        elif header.ident == UPDB_IDENT:
-            hr = UnicodeHeaderRecord(header.section_data(0))
-        else:
+        if header.ident not in (UPDB_IDENT, BPDB_IDENT):
             stream.seek(0)
             return super(HaoDooPdb, self).get_metadata(stream, ftype)
+        reader = Reader(header, stream, None, None)
 
-        mi.title = hr.title
-        # TODO: could I set this from gui?
-        mi.language = 'zh-tw'
-
-        return mi
+        return reader.get_metadata()
 
     def convert(self, stream, options, file_ext, log, accelerators):
         header = PdbHeaderReader(stream)
