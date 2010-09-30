@@ -56,6 +56,7 @@ punct_table = {
     u"︙": u"…",
     u"ⸯ": u"～",
     u"│": u"…",
+    u"　": u"  ",
     }
 
 def fix_punct(line):
@@ -70,7 +71,7 @@ class LegacyHeaderRecord(object):
         self.title = fields[0].decode('cp950', 'replace')
         self.num_records = int(fields[1])
         self.chapter_titles = map(
-            lambda x: x.decode('cp950', 'replace').rstrip('\x00'),
+            lambda x: fix_punct(x.decode('cp950', 'replace').rstrip('\x00')),
             fields[2:])
 
 class UnicodeHeaderRecord(object):
@@ -80,7 +81,7 @@ class UnicodeHeaderRecord(object):
         self.title = fields[0].decode('utf_16_le', 'ignore')
         self.num_records = int(fields[1])
         self.chapter_titles = map(
-            lambda x: x.decode('utf_16_le', 'replace').rstrip('\x00'),
+            lambda x: fix_punct(x.decode('utf_16_le', 'replace').rstrip('\x00')),
             fields[2].split('\r\x00\n\x00'))
 
 class Reader(FormatReader):
@@ -116,6 +117,7 @@ class Reader(FormatReader):
             lines = []
             title_added = False
             for line in self.decompress_text(i).splitlines():
+                line = fix_punct(line)
                 if not title_added and title in line:
                     line = line.replace(title,
                                         u'<h1 class="chapter">' + title + u'</h1>' + u'\n')
@@ -123,7 +125,6 @@ class Reader(FormatReader):
                 else:
                     line = prepare_string_for_xml(line)
                 line = line.strip()
-                line = fix_punct(line)
                 lines.append(u'<p>%s</p>' % line)
             txt += '\n'.join(lines)
 
