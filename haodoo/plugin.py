@@ -68,7 +68,7 @@ class LegacyHeaderRecord(object):
 
     def __init__(self, raw):
         fields = raw.lstrip().replace('\x1b\x1b\x1b', '\x1b').split('\x1b')
-        self.title = fields[0].decode('cp950', 'replace')
+        self.title = fix_punct(fields[0].decode('cp950', 'replace'))
         self.num_records = int(fields[1])
         self.chapter_titles = map(
             lambda x: fix_punct(x.decode('cp950', 'replace').rstrip('\x00')),
@@ -78,7 +78,7 @@ class UnicodeHeaderRecord(object):
 
     def __init__(self, raw):
         fields = raw.lstrip().replace('\x1b\x00\x1b\x00\x1b\x00', '\x1b\x00').split('\x1b\x00')
-        self.title = fields[0].decode('utf_16_le', 'ignore')
+        self.title = fix_punct(fields[0].decode('utf_16_le', 'ignore'))
         self.num_records = int(fields[1])
         self.chapter_titles = map(
             lambda x: fix_punct(x.decode('utf_16_le', 'replace').rstrip('\x00')),
