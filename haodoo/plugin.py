@@ -56,6 +56,7 @@ punct_table = {
     u"︙": u"…",
     u"ⸯ": u"～",
     u"│": u"…",
+    u"￤": u"…",
     u"　": u"  ",
     }
 
@@ -135,13 +136,12 @@ class Reader(FormatReader):
             title_added = False
             for line in self.decompress_text(i).splitlines():
                 line = fix_punct(line)
+                line = line.strip()
                 if not title_added and title in line:
-                    line = line.replace(title,
-                                        u'<h1 class="chapter">' + title + u'</h1>' + u'\n')
+                    line = u'<h1 class="chapter">' + line + u'</h1>\n'
                     title_added = True
                 else:
                     line = prepare_string_for_xml(line)
-                line = line.strip()
                 lines.append(u'<p>%s</p>' % line)
             txt += '\n'.join(lines)
 
