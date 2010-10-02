@@ -143,6 +143,8 @@ class Reader(FormatReader):
                 else:
                     line = prepare_string_for_xml(line)
                 lines.append(u'<p>%s</p>' % line)
+            if not title_added:
+                lines.insert(0, u'<h1 class="chapter">' + title + u'</h1>\n')
             txt += '\n'.join(lines)
 
         self.log.info('Converting text to OEB...')
