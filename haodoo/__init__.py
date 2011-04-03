@@ -1,4 +1,4 @@
-# Copyright (C) 2010  Kan-Ru Chen
+# Copyright (C) 2010, 2011  Kan-Ru Chen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __license__   = 'GPL v3'
-__copyright__ = '2010, Kan-Ru Chen <kanru@kanru.info>'
+__copyright__ = '2010, 2011 Kan-Ru Chen <kanru@kanru.info>'
 
 import os, struct
 
