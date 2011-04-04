@@ -162,13 +162,14 @@ class Reader(FormatReader):
 class HaoDooPdb(calibre.ebooks.pdb.input.PDBInput,
                 calibre.customize.builtins.PDBMetadataReader):
 
-    name                = 'HaoDoo PDB Plugin'
-    description         = 'Add HaoDoo PDB/uPDB support to core PDB plugin'
-    supported_platforms = ['windows', 'osx', 'linux']
-    author              = 'Kan-Ru Chen <kanru@kanru.info>'
-    file_types          = set(['pdb', 'updb'])
-    version             = (0, 4, 2)
-    priority            = 10
+    name                    = 'HaoDoo PDB Plugin'
+    description             = 'Add HaoDoo PDB/uPDB support to core PDB plugin'
+    supported_platforms     = ['windows', 'osx', 'linux']
+    author                  = 'Kan-Ru Chen <kanru@kanru.info>'
+    file_types              = set(['pdb', 'updb'])
+    version                 = (0, 4, 3)
+    minimum_calibre_version = (0, 7, 53)
+    priority                = 10
 
     def initialize(self):
         pass
