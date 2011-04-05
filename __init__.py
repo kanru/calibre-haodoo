@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright (C) 2010, 2011  Kan-Ru Chen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -26,7 +27,6 @@ from calibre.ebooks.metadata import MetaInformation
 from calibre.ebooks.pdb.formatreader import FormatReader
 from calibre.ebooks.pdb.header import PdbHeaderReader
 from calibre.ebooks.txt.processor import opf_writer, HTML_TEMPLATE
-
 
 BPDB_IDENT = 'BOOKMTIT'
 UPDB_IDENT = 'BOOKMTIU'
@@ -167,7 +167,7 @@ class HaoDooPdb(calibre.ebooks.pdb.input.PDBInput,
     supported_platforms     = ['windows', 'osx', 'linux']
     author                  = 'Kan-Ru Chen <kanru@kanru.info>'
     file_types              = set(['pdb', 'updb'])
-    version                 = (0, 4, 3)
+    version                 = (0, 4, 4)
     minimum_calibre_version = (0, 7, 53)
     priority                = 10
 
