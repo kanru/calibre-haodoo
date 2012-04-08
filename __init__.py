@@ -15,14 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __license__   = 'GPL v3'
-__copyright__ = '2010, 2011 Kan-Ru Chen <kanru@kanru.info>'
+__copyright__ = '2010, 2011, 2012 Kan-Ru Chen <kanru@kanru.info>'
 
 import os, struct
 
-import calibre.ebooks.pdb.input
-import calibre.customize.builtins
-
 from calibre import prepare_string_for_xml
+from calibre.customize import FileTypePlugin
 from calibre.ebooks.metadata import MetaInformation
 from calibre.ebooks.pdb.formatreader import FormatReader
 from calibre.ebooks.pdb.header import PdbHeaderReader
@@ -159,36 +157,55 @@ class Reader(FormatReader):
 
         return os.path.join(output_dir, 'metadata.opf')
 
-class HaoDooPdb(calibre.ebooks.pdb.input.PDBInput,
-                calibre.customize.builtins.PDBMetadataReader):
+def get_metadata(stream, extract_cover=True):
+    '''
+    Return metadata as a L{MetaInfo} object
+    '''
+    stream.seek(0)
+
+    pheader = PdbHeaderReader(stream)
+    reader = Reader(pheader, stream, None, None)
+
+    return reader.get_metadata()
+
+class HaoDooPdb(FileTypePlugin):
 
     name                    = 'HaoDoo PDB Plugin'
     description             = 'Add HaoDoo PDB/uPDB support to core PDB plugin'
     supported_platforms     = ['windows', 'osx', 'linux']
     author                  = 'Kan-Ru Chen <kanru@kanru.info>'
-    file_types              = set(['pdb', 'updb'])
-    version                 = (0, 4, 4)
-    minimum_calibre_version = (0, 7, 53)
+    file_types              = set()
+    version                 = (0, 8, 0)
+    minimum_calibre_version = (0, 8, 39)
     priority                = 10
 
     def initialize(self):
-        pass
+        from calibre.customize.builtins import PDBMetadataReader
+        from calibre.ebooks import BOOK_EXTENSIONS
+        from calibre.ebooks.conversion.plugins.pdb_input import PDBInput
+        from calibre.ebooks.metadata.pdb import MREADER
+        from calibre.ebooks.pdb import (IDENTITY_TO_NAME, get_reader)
 
-    def get_metadata(self, stream, ftype):
-        header = PdbHeaderReader(stream)
-        if header.ident not in (UPDB_IDENT, BPDB_IDENT):
-            stream.seek(0)
-            return super(HaoDooPdb, self).get_metadata(stream, ftype)
-        reader = Reader(header, stream, None, None)
+        import calibre.ebooks.pdb
 
-        return reader.get_metadata()
+        if PDBMetadataReader:
+            PDBMetadataReader.file_types.add('updb')
 
-    def convert(self, stream, options, file_ext, log, accelerators):
-        header = PdbHeaderReader(stream)
-        if header.ident not in (UPDB_IDENT, BPDB_IDENT):
-            return super(HaoDooPdb, self).convert(
-                stream, options, file_ext, log, accelerators)
-        reader = Reader(header, stream, log, options)
-        opf = reader.extract_content(os.getcwd())
+        if PDBInput:
+            PDBInput.file_types.add('updb')
 
-        return opf
+        if BOOK_EXTENSIONS:
+            if 'updb' not in BOOK_EXTENSIONS:
+                BOOK_EXTENSIONS.append('updb')
+
+        if MREADER:
+            MREADER[BPDB_IDENT] = get_metadata
+            MREADER[UPDB_IDENT] = get_metadata
+
+        if not get_reader(BPDB_IDENT):
+            calibre.ebooks.pdb.FORMAT_READERS[BPDB_IDENT] = Reader
+            calibre.ebooks.pdb.FORMAT_READERS[UPDB_IDENT] = Reader
+
+        if IDENTITY_TO_NAME:
+            IDENTITY_TO_NAME[BPDB_IDENT] = 'Haodoo.net'
+            IDENTITY_TO_NAME[UPDB_IDENT] = 'Haodoo.net'
